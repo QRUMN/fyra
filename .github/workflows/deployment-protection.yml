@@ -1,0 +1,71 @@
+name: Deployment Protection
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  security:
+    name: Security Checks
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Run security audit
+        run: npm audit
+        continue-on-error: true
+
+      - name: CodeQL Analysis
+        uses: github/codeql-action/init@v2
+        with:
+          languages: javascript, typescript
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
+
+      - name: Check for sensitive data
+        uses: zricethezav/gitleaks-action@master
+        with:
+          config-path: .gitleaks.toml
+
+  compliance:
+    name: Compliance Checks
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Check file headers
+        run: |
+          find src -type f \( -name "*.ts" -o -name "*.tsx" \) -exec grep -L "Copyright (c) 2025 QRUMN / FYRA" {} \;
+          test $? -eq 1
+
+      - name: Verify license
+        run: |
+          if ! grep -q "All Rights Reserved" LICENSE; then
+            echo "LICENSE file missing or invalid"
+            exit 1
+          fi
+
+      - name: Check security headers
+        run: |
+          if ! grep -q "Content-Security-Policy" netlify.toml; then
+            echo "Security headers missing in netlify.toml"
+            exit 1
+          fi

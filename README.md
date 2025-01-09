@@ -1,12 +1,14 @@
 # FYRA
 
 ![FYRA](https://via.placeholder.com/150?text=FYRA) <!-- Replace with your logo -->
+[![Netlify Status](https://api.netlify.com/api/v1/badges/[site-id]/deploy-status)](https://app.netlify.com/sites/fyra/deploys)
+[![Security Checks](https://github.com/QRUMN/fyra/workflows/Deployment%20Protection/badge.svg)](https://github.com/QRUMN/fyra/actions)
 
 ## Proprietary Software Notice
 
 This repository contains proprietary and confidential information. All rights reserved.
 
-© 2025 QRUMN / FYRA
+ 2025 QRUMN / FYRA
 
 ## Overview
 
