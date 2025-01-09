@@ -1,0 +1,93 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 1s ease-out forwards;
+}
+
+@keyframes ping {
+  75%, 100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+.animate-ping {
+  animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@layer base {
+  body {
+    @apply antialiased;
+  }
+}
+
+@layer components {
+  .container {
+    @apply max-w-7xl mx-auto;
+  }
+}
+
+/* Dark mode transitions */
+.dark * {
+  @apply transition-colors duration-200;
+}
+
+/* Mapbox popup customization */
+.mapboxgl-popup {
+  @apply z-20;
+}
+
+.mapboxgl-popup-content {
+  @apply p-0 rounded-xl shadow-xl border-0 overflow-hidden bg-transparent;
+}
+
+.hotspot-popup .mapboxgl-popup-content {
+  @apply bg-transparent border-0 shadow-none;
+}
+
+.mapboxgl-popup-tip {
+  @apply hidden;
+}
+
+/* Card text truncation */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Map Controls */
+.mapboxgl-ctrl-group {
+  @apply !bg-black/50 !backdrop-blur-sm !border-0;
+}
+
+.mapboxgl-ctrl-group button {
+  @apply !bg-transparent !border-0;
+}
+
+.mapboxgl-ctrl-group button .mapboxgl-ctrl-icon {
+  @apply !bg-no-repeat;
+}
+
+.mapboxgl-ctrl-group button:not(:disabled):hover {
+  @apply !bg-white/10;
+}
+
+/* Map Interactions */
+.mapboxgl-canvas {
+  @apply cursor-grab active:cursor-grabbing;
+}
